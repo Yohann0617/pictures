@@ -6,7 +6,7 @@
 */
 
 [rewrite_local]
-^http[s]?:\/\/api.hujuvod.com\/user\/personal\/information
+^http[s]?:\/\/api.hujuvod.com\/user\/personal\/information url script-response-body https://raw.githubusercontent.com/Yohann0617/pictures/master/Yohann-rrsp.js
   
 [mitm]
 hostname = api.hujuvod.com
