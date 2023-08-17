@@ -1,19 +1,40 @@
-/******************************
-*人人美剧解锁永久VIP
-*主机名api.hujuvod.com
-*TG频道∶https://t.me/iosrxwy/
-*公众号∶iOS宝藏
-*/
+/*************************************
+
+项目名称：人人视频
+下载地址：https://t.cn/A60DZeo4
+脚本作者：chxm1023
+电报频道：https://t.me/chxm1023
+使用声明：⚠️仅供参考，🈲转载与售卖！
+
+**************************************
 
 [rewrite_local]
-^http[s]?:\/\/api.hujuvod.com\/user\/personal\/information url script-response-body https://raw.githubusercontent.com/Yohann0617/pictures/master/Yohann-rrsp.js
-  
+^https?:\/\/api\.hujuvod\.com\/(user\/personal\/information|app\/drama\/page) url script-response-body https://raw.githubusercontent.com/chxm1023/Rewrite/main/renrenshipin.js
+
 [mitm]
 hostname = api.hujuvod.com
 
 *************************************/
 
-var body = $response.body.replace(/expiredTime":\d+/g,'expiredTime":253392455349000')
-.replace(/valid":\w+/g,'valid":true')
-.replace(/endTime":".*?"/g,'endTime":"9999-11-15 11:55:06"')
-$done({ body });
+
+if ($response.body != 'undefined'){
+var body = $response.body;
+var chxm1023 = JSON.parse(body);
+const urla = '/user/personal/information';
+const urlb = '/app/drama/page';
+
+if ($request.url.indexOf(urla) != -1){
+  chxm1023.data.user["vipInfo"] = { "level" : "3",        "valid" : true, "expiredTime" : 4092599349000 };
+  chxm1023.data.user.level = 3;
+  chxm1023.data.user.vipLevel = 3;
+  body = JSON.stringify(chxm1023);
+}
+
+if ($request.url.indexOf(urlb) != -1){
+  body = body.replace(/\"canShowVip":\w+/g, '\"canShowVip":false');
+  body = body.replace(/\"externalAds":\w+/g, '\"externalAds":false');
+  body = body.replace(/\"feeMode":\w+/g, '\"feeMode":free');
+  body = body.replace(/\"enable":\w+/g, '\"enable":true');
+  body = body.replace(/\"canPlay":false/g, '\"canPlay":true');
+}
+$done({body});}
